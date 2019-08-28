@@ -1,0 +1,61 @@
+<!--
+ Copyright (c) 2014, 2018, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-flex-bar-center-absolute">
+  <div data-bind="visible: !signedIn()">
+    <div>
+      <h1>Oracle Blockchain Cloud Service</h1>
+      <p>If you are on this page, you should have completed the demo and are now ready to see your blockchain network in action. Please fill out the following fields with the information from your blockchain network. We will then use that data to create three different views into the network. One for "RiderCo", one for "ScooterCo", and one for the city.</p>
+      <div>
+        <div>
+          <label for="cityRestProxy-input">City REST Proxy URL:</label>
+          <input id="cityRestProxy-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: cityRestProxy}"/>
+        </div>
+        <div>
+          <label for="riderRestProxy-input">RiderCo REST Proxy URL:</label>
+          <input id="riderRestProxy-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: riderCoRESTProxy}"/>
+        </div>
+        <div>
+          <label for="scooterRestProxy-input">ScooterCo REST Proxy URL:</label>
+          <input id="scooterRestProxy-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: scooterCoRestProxy}"/>
+        </div>
+        <div>
+          <label for="cityRiderChannel-input">RiderCo <-> City Channel Name:</label>
+          <input id="cityRiderChannel-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: riderCoChannel}"/>
+        </div>
+        <div>
+          <label for="cityScooterChannel-input">ScooterCo <-> City Channel Name:</label>
+          <input id="cityScooterChannel-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: scooterCoChannel}"/>
+        </div>
+        <div>
+          <label for="vehicleChaincode-input">Vehicle Registration Chaincode Name:</label>
+          <input id="vehicleChaincode-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: vehicleChaincode}"/>
+        </div>
+        <div>
+          <label for="tripChaincode-input">Trip Logger Chaincode Name:</label>
+          <input id="tripChaincode-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: tripChaincode}"/>
+        </div>
+        <div>
+          <label for="cloudChain-input">Check here if you are using the Blockchain Cloud Service.</label>
+          <input id="cloudChain-input" type="checkbox" data-bind="checked: cloudChain"/>
+        </div>
+        <div data-bind="visible: cloudChain">
+          <label for="restUsername-input">REST Proxy Username:</label>
+          <input id="restUsername-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: restUsername}"/>
+        </div>
+        <div data-bind="visible: cloudChain">
+          <label for="restPassword-input">REST Proxy Password:</label>
+          <input id="restPassword-input" type="password" data-bind="ojComponent: {component: 'ojInputPassword', value: restPassword}"/>
+        </div>
+        <br/>
+        <div class="oj-flex-bar ">
+          <div class="oj-flex-bar-middle">
+            <input id="inputButton" class="hk-xh-login-btn" type="button" data-bind="click: submitData, ojComponent: {component: 'ojButton', label: 'Submit', chroming: 'full'}"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
