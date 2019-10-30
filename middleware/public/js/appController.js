@@ -17,14 +17,14 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
       // Variables used for the requests...
       self.cityRestProxy = "";
       self.riderCoRESTProxy = "";
-      self.scooterCoRestProxy = "";
+//      self.scooterCoRestProxy = "";
       self.riderCoChannel = "";
-      self.scooterCoChannel = "";
+//      self.scooterCoChannel = "";
       self.vehicleChaincode = "";
       self.tripChaincode = "";
       self.cloudChain = false;
-      self.restUsername = "";
-      self.restPassword = "";
+      self.restUsername = "customertenant@oracle.com";
+      self.restPassword = "Welcome1";
 
 
       self.reset = function() {
@@ -41,8 +41,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
        self.router.configure({
          'login': {label: 'login', isDefault: true},
          'city': {label: 'City'},
-         'riderco': {label: 'RiderCo'},
-         'scooterco': {label: 'ScooterCo'}
+         'riderco': {label: 'RiderCo'} //,
+//         'scooterco': {label: 'ScooterCo'}
        });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 
@@ -70,8 +70,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
       {name: 'City', id: 'city',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-home-icon-24'},
       {name: 'RiderCo', id: 'riderco',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
-      {name: 'ScooterCo', id: 'scooterco',
+       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'} //,
+//      {name: 'ScooterCo', id: 'scooterco',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'}
       ];
       self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});

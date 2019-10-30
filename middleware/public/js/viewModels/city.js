@@ -240,22 +240,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
 
 //============= Area for the AJAX request ======================================
       const requestOptions = {
-        channels : [app.riderCoChannel, app.scooterCoChannel],
+        channels : [app.riderCoChannel],
         url : app.cityRestProxy,
-        chaincode : app.tripChaincode
+        chaincode : app.tripChaincode,
+        restUsername : app.restUsername,
+        restPassword : app.restPassword
       };
 
       const requestOptions2 = {
-        channels : [app.riderCoChannel, app.scooterCoChannel],
+        channels : [app.riderCoChannel],
         url : app.cityRestProxy,
-        chaincode : app.vehicleChaincode
-      };
-
-      if (app.cloudChain) {
-        requestOptions.restUsername = app.restUsername;
-        requestOptions.restPassword = app.restPassword;
-        requestOptions2.restUsername = app.restUsername;
-        requestOptions2.restPassword = app.restPassword;
+        chaincode : app.vehicleChaincode,
+        restUsername : app.restUsername,
+        restPassword : app.restPassword
       };
 
       self.connected = function() {
@@ -263,7 +260,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
         // AJAX for the trips.
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/tripsCheck',
+          url: '/tripsCheck',
           data: JSON.stringify(requestOptions),
           contentType: "application/json",
           success: (data, textStatus, xhr) => {
@@ -299,7 +296,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
         // AJAX for the vehicles
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/vehiclesCheck',
+          url: '/vehiclesCheck',
           data: JSON.stringify(requestOptions2),
           contentType: "application/json",
           success: (data, textStatus, xhr) => {
@@ -325,7 +322,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
           }
         });
       };
-
 
     self.disconnected = function() {
     };

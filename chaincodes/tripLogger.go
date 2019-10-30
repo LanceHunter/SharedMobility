@@ -1,3 +1,5 @@
+/*
+
 package main
 
 import (
@@ -276,3 +278,4 @@ func (s *SmartContract) queryLastTrip(APIstub shim.ChaincodeStubInterface, args 
 	// Return that trip.
 	return shim.Success(tripAsBytes)
 }
+*/
