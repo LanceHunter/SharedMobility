@@ -112,7 +112,6 @@ func (s *SmartContract) seeAllVehicles(APIstub shim.ChaincodeStubInterface, args
 		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
 	}
-
 	buffer.WriteString("]")
 
 	return shim.Success(buffer.Bytes())
@@ -126,14 +125,13 @@ func (s *SmartContract) registerVehicle(APIstub shim.ChaincodeStubInterface, arg
 	}
 
 	// We get the serial number for the vehicle, the company that owns the vehicle, and the type of vehicle. We mark its current location as "oos" (for out of service) and mark InService as false.
-	var k = "V" + args[0]
 	var identity = Vehicle{Serial: args[0], Owner: args[1], VehicleType: args[2], CurrentLocation: "oos", InService: false}
 
 	// json.Marshal is returning a JSON encoding of the identity struct.
 	identityAsBytes, _ := json.Marshal(identity)
 
 	// Create a key that identifies this record as a vehicle.
-	var k = "V" + args[0]
+	k := "V" + args[0]
 
 	// Put the record on the chain, and catch any error returned.
 	err := APIstub.PutState(k, identityAsBytes)
@@ -335,8 +333,12 @@ func (s *SmartContract) updateLocation(APIstub shim.ChaincodeStubInterface, args
 	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments. Expecting 2. The vehicle serial number and its current location.")
 	}
+
+	// Get the record key from the serial number.
+	vehicleKey := "V" + args[0]
+
 	// Get the current state for the vehicle.
-	vehicleAsBytes, _ := APIstub.GetState(args[0])
+	vehicleAsBytes, _ := APIstub.GetState(vehicleKey)
 	// Make sure we got a result. If we didn't, throw an error.
 	if vehicleAsBytes == nil {
 		return shim.Error("Could not locate Vehicle with that serial number")
@@ -350,14 +352,14 @@ func (s *SmartContract) updateLocation(APIstub shim.ChaincodeStubInterface, args
 	// Putting this back into JSON.
 	vehicleAsBytes, _ = json.Marshal(vehicle)
 	// Putting that JSON for the updated vehicle info on the chain, capturing any error.
-	err := APIstub.PutState(args[0], vehicleAsBytes)
+	err := APIstub.PutState(vehicleKey, vehicleAsBytes)
 	// Got some logging happening here...
 	var logger = shim.NewLogger("vehicleReg")
 	logger.Info("Lance Debug - This is the vehicleAsBytes...")
 	logger.Info(vehicleAsBytes)
 	// If there is any error from creating a record for this on the chain, exit on that error.
 	if err != nil {
-		return shim.Error(fmt.Sprintf("Failed to record the vehicle: %s", args[0]))
+		return shim.Error(fmt.Sprintf("Failed to record the vehicle: %s", vehicleKey))
 	}
 	// If all went well, return success.
 	return shim.Success(nil)
@@ -457,7 +459,7 @@ func (s *SmartContract) recordTrip(APIstub shim.ChaincodeStubInterface, args []s
 	// Creating a logger to get some debug info logged out.
 	var logger = shim.NewLogger("tripLogger")
 
-	// Get the vehicle record.
+	// Get the vehicle record, to confirm vehicle is valid.
 	key := "V" + args[0]
 	_, err := APIstub.GetState(key)
 	// If there is any error getting the key,
@@ -465,8 +467,15 @@ func (s *SmartContract) recordTrip(APIstub shim.ChaincodeStubInterface, args []s
 		return shim.Error(err.Error())
 	}
 
-	// Convert the strings from the initial JSON into their correct values with strconv.
+	// Get the trip record, to confirm vehicle is valid.
+	key := "T" + args[0]
+	_, err := APIstub.GetState(key)
+	// If there is any error getting the key,
+	if err != nil {
+		return shim.Error(err.Error())
+	}
 
+	// Convert the strings from the initial JSON into their correct values with strconv.
 	theStartTime, _ := strconv.ParseInt(args[1], 10, 64)
 	theEndTime, _ := strconv.ParseInt(args[4], 10, 64)
 	theStartLat, _ := strconv.ParseFloat(args[2], 64)
@@ -476,17 +485,22 @@ func (s *SmartContract) recordTrip(APIstub shim.ChaincodeStubInterface, args []s
 
 	// Put the trip info into a Trip struct.
 	var singleTrip = Trip{Serial: args[0], StartTime: theStartTime, StartLat: theStartLat, StartLong: theStartLong, EndTime: theEndTime, EndLat: theEndLat, EndLong: theEndLong}
+
 	// Marshalling this into JSON for recording on the chain.
 	singleTripAsBytes, _ := json.Marshal(singleTrip)
+
 	// Some debug logging.
 	logger.Info("Lance Debug - This is the singleTripAsBytes...")
 	logger.Info(singleTripAsBytes)
+
 	// Putting the new trip into the database. Catching any error that may occur.
-	err = APIstub.PutState(args[0], singleTripAsBytes)
+	err = APIstub.PutState(key, singleTripAsBytes)
+
 	// If there was an error, return that error
 	if err != nil {
 		return shim.Error(fmt.Sprintf("Failed to record trip. Error: %s", err))
 	}
+
 	// If everything worked, record a success.
 	return shim.Success(nil)
 }
@@ -496,8 +510,8 @@ func (t *SmartContract) getTripsForVehicle(stub shim.ChaincodeStubInterface, arg
 	if len(args) < 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1 argument, the vehicle serial number.")
 	}
-	// Putting the key into a variable for ease-of-use.
-	recordKey := args[0]
+	// Getting the trip key for the serial number.
+	recordKey := "T" + args[0]
 	// Getting the history for the record. Catching any potential error.
 	resultsIterator, err := stub.GetHistoryForKey(recordKey)
 	// If there is an error, return that error.
@@ -530,23 +544,11 @@ func (t *SmartContract) getTripsForVehicle(stub shim.ChaincodeStubInterface, arg
 		buffer.WriteString("\"")
 		// Write the value for the string.
 		buffer.WriteString(", \"Value\":")
-		// If there was a delete operation on given key, then we need to set the
-		// corresponding value null. Otherwise, we will write the response.Value
-		// as-is (as the Value itself a JSON for the trip.)
-		if response.IsDelete {
-			buffer.WriteString("null")
-		} else {
-			buffer.WriteString(string(response.Value))
-		}
+		buffer.WriteString(string(response.Value))
 		// Write the timestamp when the trip was committed.
 		buffer.WriteString(", \"Timestamp\":")
 		buffer.WriteString("\"")
 		buffer.WriteString(time.Unix(response.Timestamp.Seconds, int64(response.Timestamp.Nanos)).String())
-		buffer.WriteString("\"")
-		// Write down if the trip was deleted.
-		buffer.WriteString(", \"IsDelete\":")
-		buffer.WriteString("\"")
-		buffer.WriteString(strconv.FormatBool(response.IsDelete))
 		buffer.WriteString("\"")
 		// Close out the item
 		buffer.WriteString("}")
@@ -569,7 +571,7 @@ func (s *SmartContract) queryLastTrip(APIstub shim.ChaincodeStubInterface, args 
 		return shim.Error("Incorrect number of arguments")
 	}
 	// Put the serial number into a variable.
-	key := args[0]
+	key := "T" + args[0]
 	// Grab the state of the key/serial number, which should be the last trip.
 	tripAsBytes, _ := APIstub.GetState(key)
 	// If the state is nil, return an error.
