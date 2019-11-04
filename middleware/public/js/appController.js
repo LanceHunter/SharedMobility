@@ -23,8 +23,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
       self.vehicleChaincode = "";
       self.tripChaincode = "";
       self.cloudChain = false;
-      self.restUsername = "customertenant@oracle.com";
-      self.restPassword = "Welcome1";
+      self.restUsername = "";
+      self.restPassword = "";
 
 
       self.reset = function() {

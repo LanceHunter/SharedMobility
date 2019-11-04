@@ -25,34 +25,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
       self.cloudChain = ko.observable(false);
 
       self.submitData = function() {
-        if (self.cloudChain()) {
-          if (self.restUsername() && self.restPassword()) {
-            app.cityRestProxy = self.cityRestProxy();
-            app.riderCoRESTProxy = self.riderCoRESTProxy();
-            app.scooterCoRestProxy = self.scooterCoRestProxy();
-            app.riderCoChannel = self.riderCoChannel();
-            app.scooterCoChannel = self.scooterCoChannel();
-            app.vehicleChaincode = self.vehicleChaincode();
-            app.tripChaincode = self.tripChaincode();
-            app.restUsername = self.restUsername();
-            app.restPassword = self.restPassword();
-            app.cloudChain = self.cloudChain();
-            self.signedIn(true);
-            app.signedIn(true);
-            app.pageid = 'city';
-            app.router.go('city');
-            app.refreshMenu();
-          } else {
-            alert('Please enter both the username and password for REST proxy access, or uncheck the Blockchain Cloud Service option.');
-          }
-        } else {
+        if (self.restUsername() && self.restPassword()) {
           app.cityRestProxy = self.cityRestProxy();
           app.riderCoRESTProxy = self.riderCoRESTProxy();
           app.scooterCoRestProxy = self.scooterCoRestProxy();
           app.riderCoChannel = self.riderCoChannel();
           app.scooterCoChannel = self.scooterCoChannel();
           app.vehicleChaincode = self.vehicleChaincode();
-          app.tripChaincode = self.tripChaincode();
+          app.tripChaincode = self.vehicleChaincode();
           app.restUsername = self.restUsername();
           app.restPassword = self.restPassword();
           app.cloudChain = self.cloudChain();
@@ -61,6 +41,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
           app.pageid = 'city';
           app.router.go('city');
           app.refreshMenu();
+        } else {
+          alert('Please enter both the username and password for REST proxy access.');
         }
       }
 

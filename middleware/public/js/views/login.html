@@ -5,8 +5,8 @@
 <div class="oj-flex-bar-center-absolute">
   <div data-bind="visible: !signedIn()">
     <div>
-      <h1>Oracle Blockchain Cloud Service</h1>
-      <p>If you are on this page, you should have completed the demo and are now ready to see your blockchain network in action. Please fill out the following fields with the information from your blockchain network. We will then use that data to create two different views into the network. One for "RiderCo", and one for the city.</p>
+      <h1>Oracle Blockchain Platform</h1>
+      <p>If you are on this page, you should have completed the demo and are now ready to see your blockchain network in action. Please fill out the following fields with the information from your blockchain network. We will then use that data to create two different views into the network. One for the City, and one for RiderCo.</p>
       <div>
         <div>
           <label for="cityRestProxy-input">City REST Proxy URL:</label>
@@ -16,29 +16,13 @@
           <label for="riderRestProxy-input">RiderCo REST Proxy URL:</label>
           <input id="riderRestProxy-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: riderCoRESTProxy}"/>
         </div>
-<!--
-        <div>
-          <label for="scooterRestProxy-input">ScooterCo REST Proxy URL:</label>
-          <input id="scooterRestProxy-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: scooterCoRestProxy}"/>
-        </div>
--->
         <div>
           <label for="cityRiderChannel-input">RiderCo <-> City Channel Name:</label>
           <input id="cityRiderChannel-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: riderCoChannel}"/>
         </div>
-<!--
-        <div>
-          <label for="cityScooterChannel-input">ScooterCo <-> City Channel Name:</label>
-          <input id="cityScooterChannel-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: scooterCoChannel}"/>
-        </div>
--->
         <div>
           <label for="vehicleChaincode-input">Vehicle Registration Chaincode Name:</label>
           <input id="vehicleChaincode-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: vehicleChaincode}"/>
-        </div>
-        <div>
-          <label for="tripChaincode-input">Trip Logger Chaincode Name:</label>
-          <input id="tripChaincode-input" type="text" data-bind="ojComponent: {component: 'ojInputText', value: tripChaincode}"/>
         </div>
         <div>
           <label for="restUsername-input">REST Proxy Username:</label>
