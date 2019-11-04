@@ -33,7 +33,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
           }
           $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/registerVehicle',
+            url: '/registerVehicle',
             data: JSON.stringify(addVehicleRequestOptions),
             contentType: 'application/json',
             success: (data) => {
@@ -83,7 +83,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/putInService',
+          url: '/putInService',
           data: JSON.stringify(putInServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -128,7 +128,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/takeTrip',
+          url: '/takeTrip',
           data: JSON.stringify(createTripRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -165,7 +165,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/takeOutOfService',
+          url: '/takeOutOfService',
           data: JSON.stringify(takeOutOfServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -217,7 +217,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         self.dataProvider = new ko.observable(new ArrayDataProvider(self.dataArray, {keyAttributes: 'Key'}));
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/vehiclesCheck',
+          url: '/vehiclesCheck',
           data: JSON.stringify(requestOptions),
           contentType: 'application/json',
           success: (data) => {

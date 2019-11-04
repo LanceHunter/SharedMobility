@@ -1,4 +1,6 @@
-// Super unsafe stuff just to work with the temp system. REMOVE SOON.
+// Super unsafe stuff just to work with the temp system.
+// ABSOLUTELY REMOVE THIS LINE IF YOU ARE USING THIS CODE TO COMMUNICATE
+// WITH ANYTHING OTHER THAN A LOCAL VIRTUAL MACHINE!!!
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 // Adding dependencies.

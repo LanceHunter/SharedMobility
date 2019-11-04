@@ -460,16 +460,16 @@ func (s *SmartContract) recordTrip(APIstub shim.ChaincodeStubInterface, args []s
 	var logger = shim.NewLogger("tripLogger")
 
 	// Get the vehicle record, to confirm vehicle is valid.
-	key := "V" + args[0]
-	_, err := APIstub.GetState(key)
+	vehicleKey := "V" + args[0]
+	_, err := APIstub.GetState(vehicleKey)
 	// If there is any error getting the key,
 	if err != nil {
 		return shim.Error(err.Error())
 	}
 
 	// Get the trip record, to confirm vehicle is valid.
-	key := "T" + args[0]
-	_, err := APIstub.GetState(key)
+	tripKey := "T" + args[0]
+	_, err = APIstub.GetState(tripKey)
 	// If there is any error getting the key,
 	if err != nil {
 		return shim.Error(err.Error())
@@ -494,7 +494,7 @@ func (s *SmartContract) recordTrip(APIstub shim.ChaincodeStubInterface, args []s
 	logger.Info(singleTripAsBytes)
 
 	// Putting the new trip into the database. Catching any error that may occur.
-	err = APIstub.PutState(key, singleTripAsBytes)
+	err = APIstub.PutState(tripKey, singleTripAsBytes)
 
 	// If there was an error, return that error
 	if err != nil {

@@ -71,8 +71,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojmodule-element-utils', 'ojs/ojmodule-el
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-home-icon-24'},
       {name: 'RiderCo', id: 'riderco',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'} //,
-//      {name: 'ScooterCo', id: 'scooterco',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'}
+      // {name: 'ScooterCo', id: 'scooterco',
+      //  iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'}
       ];
       self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
 
