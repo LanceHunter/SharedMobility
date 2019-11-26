@@ -33,7 +33,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
           }
           $.ajax({
             type: 'POST',
-            url: 'http://localhost:3000/registerVehicle',
+            url: 'http://localhost:9000/registerVehicle',
             data: JSON.stringify(addVehicleRequestOptions),
             contentType: 'application/json',
             success: (data) => {
@@ -84,7 +84,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/putInService',
+          url: 'http://localhost:9000/putInService',
           data: JSON.stringify(putInServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -130,7 +130,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/takeTrip',
+          url: 'http://localhost:9000/takeTrip',
           data: JSON.stringify(createTripRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -168,7 +168,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
         }
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/takeOutOfService',
+          url: 'http://localhost:9000/takeOutOfService',
           data: JSON.stringify(takeOutOfServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -221,7 +221,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
       self.connected = function() {
         $.ajax({
           type: 'POST',
-          url: 'http://localhost:3000/vehiclesCheck',
+          url: 'http://localhost:9000/vehiclesCheck',
           data: JSON.stringify(requestOptions),
           contentType: 'application/json',
           success: (data) => {

@@ -226,7 +226,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
       self.seriesValue(series.All);
     }
 
-    self.stackValue = ko.observable('on');
+    self.stackValue = ko.observable('off');
     self.orientationValue = ko.observable('vertical');
     self.seriesValue = ko.observableArray();
     self.groupsValue = ko.observableArray(groups);
@@ -240,19 +240,22 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
 
 //============= Area for the AJAX request ======================================
       const requestOptions = {
-        channels : [app.riderCoChannel],
+        channels : [app.riderCoChannel, app.scooterCoChannel],
         url : app.cityRestProxy,
-        chaincode : app.tripChaincode,
-        restUsername : app.restUsername,
-        restPassword : app.restPassword
+        chaincode : app.tripChaincode
       };
 
       const requestOptions2 = {
-        channels : [app.riderCoChannel],
+        channels : [app.riderCoChannel, app.scooterCoChannel],
         url : app.cityRestProxy,
-        chaincode : app.vehicleChaincode,
-        restUsername : app.restUsername,
-        restPassword : app.restPassword
+        chaincode : app.vehicleChaincode
+      };
+
+      if (app.cloudChain) {
+        requestOptions.restUsername = app.restUsername;
+        requestOptions.restPassword = app.restPassword;
+        requestOptions2.restUsername = app.restUsername;
+        requestOptions2.restPassword = app.restPassword;
       };
 
       self.connected = function() {
@@ -260,7 +263,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
         // AJAX for the trips.
         $.ajax({
           type: 'POST',
-          url: '/tripsCheck',
+          url: 'http://localhost:9000/tripsCheck',
           data: JSON.stringify(requestOptions),
           contentType: "application/json",
           success: (data, textStatus, xhr) => {
@@ -296,7 +299,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
         // AJAX for the vehicles
         $.ajax({
           type: 'POST',
-          url: '/vehiclesCheck',
+          url: 'http://localhost:9000/vehiclesCheck',
           data: JSON.stringify(requestOptions2),
           contentType: "application/json",
           success: (data, textStatus, xhr) => {
@@ -322,6 +325,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojknockout', '
           }
         });
       };
+
 
     self.disconnected = function() {
     };

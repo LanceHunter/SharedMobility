@@ -25,13 +25,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
             chaincode : app.vehicleChaincode,
             serial : self.serial(),
             type : self.vehicleType(),
-            owner : "RiderCo",
-            restUsername : app.restUsername,
-            restPassword : app.restPassword
+            owner : "RiderCo"
           };
+          if (app.cloudChain) {
+            addVehicleRequestOptions.restUsername = app.restUsername;
+            addVehicleRequestOptions.restPassword = app.restPassword;
+          }
           $.ajax({
             type: 'POST',
-            url: '/registerVehicle',
+            url: 'http://localhost:9000/registerVehicle',
             data: JSON.stringify(addVehicleRequestOptions),
             contentType: 'application/json',
             success: (data) => {
@@ -73,13 +75,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
           url : app.riderCoRESTProxy,
           chaincode : app.vehicleChaincode,
           serial : serial,
-          location : location,
-          restUsername : app.restUsername,
-          restPassword : app.restPassword
+          location : location
         };
+        if (app.cloudChain) {
+          putInServiceRequestOptions.restUsername = app.restUsername;
+          putInServiceRequestOptions.restPassword = app.restPassword;
+        }
         $.ajax({
           type: 'POST',
-          url: '/putInService',
+          url: 'http://localhost:9000/putInService',
           data: JSON.stringify(putInServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -116,13 +120,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
           tripChaincode : app.tripChaincode,
           serial : current.data.Key,
           location : current.data.Record.CurrentLocation,
-          length : parseInt(self.tripLengthVal()),
-          restUsername : app.restUsername,
-          restPassword : app.restPassword
+          length : parseInt(self.tripLengthVal())
         };
+        if (app.cloudChain) {
+          createTripRequestOptions.restUsername = app.restUsername;
+          createTripRequestOptions.restPassword = app.restPassword;
+        }
         $.ajax({
           type: 'POST',
-          url: '/takeTrip',
+          url: 'http://localhost:9000/takeTrip',
           data: JSON.stringify(createTripRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -132,7 +138,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
            event.target.disabled = false;
           },
           failure: (jqXHR, textStatus, errorThrown) => {
-            alert(`AJAX failure\n${textStatus}\n${errorThrown}`);
+            alert('AJAX failure');
           },
           complete: (jqXHR) => {
             if (jqXHR.status !== 200) {
@@ -151,13 +157,15 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
           channels : [app.riderCoChannel],
           url : app.riderCoRESTProxy,
           chaincode : app.vehicleChaincode,
-          serial : serial,
-          restUsername : app.restUsername,
-          restPassword : app.restPassword
+          serial : serial
         };
+        if (app.cloudChain) {
+          takeOutOfServiceRequestOptions.restUsername = app.restUsername;
+          takeOutOfServiceRequestOptions.restPassword = app.restPassword;
+        }
         $.ajax({
           type: 'POST',
-          url: '/takeOutOfService',
+          url: 'http://localhost:9000/takeOutOfService',
           data: JSON.stringify(takeOutOfServiceRequestOptions),
           contentType: 'application/json',
           success: (data) => {
@@ -199,15 +207,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appController', 'ojs/ojarraydatapro
       const requestOptions = {
         channels : [app.riderCoChannel],
         url : app.riderCoRESTProxy,
-        chaincode : app.vehicleChaincode,
-        restUsername : app.restUsername,
-        restPassword : app.restPassword
+        chaincode : app.vehicleChaincode
+      };
+      if (app.cloudChain) {
+        requestOptions.restUsername = app.restUsername;
+        requestOptions.restPassword = app.restPassword;
       };
       self.connected = function() {
         self.dataProvider = new ko.observable(new ArrayDataProvider(self.dataArray, {keyAttributes: 'Key'}));
         $.ajax({
           type: 'POST',
-          url: '/vehiclesCheck',
+          url: 'http://localhost:9000/vehiclesCheck',
           data: JSON.stringify(requestOptions),
           contentType: 'application/json',
           success: (data) => {

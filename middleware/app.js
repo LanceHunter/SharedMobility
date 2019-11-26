@@ -1,8 +1,3 @@
-// Super unsafe stuff just to work with the temp system.
-// ABSOLUTELY REMOVE THIS LINE IF YOU ARE USING THIS CODE TO COMMUNICATE
-// WITH ANYTHING OTHER THAN A LOCAL VIRTUAL MACHINE!!!
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-
 // Adding dependencies.
 const express = require('express');
 const path = require('path');
@@ -69,9 +64,6 @@ app.post('/tripsCheck', async (req, res, next) => {
       };
     }
     console.log(`We are starting a request on the channel ${channels[i]}`);
-    console.log(`===========REQUEST OPTIONS==============`);
-    console.log(requestOptions);
-    console.log('========================================');
     try {
       // Await the request to get its response.
       let response = await rp(requestOptions);
@@ -87,9 +79,6 @@ app.post('/tripsCheck', async (req, res, next) => {
         // console.log(`This is the response - `, response);
         // Parse the JSON string in the result and put it into the object
         if (response.result.payload) {
-          console.log(`=========response.result.payload==========`);
-          console.log(response.result.payload);
-          console.log(`=====================================`);
           allVehiclesAllTrips[channels[i]] = JSON.parse(response.result.payload);
         } else {
           allVehiclesAllTrips[channels[i]] = JSON.parse(response.result);
@@ -136,9 +125,6 @@ app.post('/vehiclesCheck', async (req, res, next) => {
           Authorization : `Basic ${authString}`
         };
       }
-      console.log(`===========VEHICLESCHECK REQUEST OPTIONS==============`);
-      console.log(requestOptions);
-      console.log('========================================');  
       try {
           // Await the request to get its response.
           let response = await rp(requestOptions);
@@ -149,6 +135,7 @@ app.post('/vehiclesCheck', async (req, res, next) => {
             res.status(500).send(response.info);
             return;
           } else { // If the return code is a success...
+
             console.log(`Response received making call on the channel ${channels[i]}`);
             // Parse the JSON string in the result and put it into the object
             if (response.result.payload) {
@@ -197,9 +184,8 @@ app.post('/registerVehicle', async (req, res, next) => {
       Authorization : `Basic ${authString}`
     };
   }
-  console.log(`===========REQUEST OPTIONS==============`);
+  console.log('requestOptions');
   console.log(requestOptions);
-  console.log('========================================');
   try {
       // Await the request to get its response.
       let response = await rp(requestOptions);
@@ -244,9 +230,8 @@ app.post('/takeOutOfService', async (req, res, next) => {
       Authorization : `Basic ${authString}`
     };
   }
-  console.log(`===========REQUEST OPTIONS==============`);
+  console.log('requestOptions');
   console.log(requestOptions);
-  console.log('========================================');
   try {
       // Await the request to get its response.
       let response = await rp(requestOptions);
@@ -292,9 +277,8 @@ app.post('/putInService', async (req, res, next) => {
       Authorization : `Basic ${authString}`
     };
   }
-  console.log(`===========REQUEST OPTIONS==============`);
+  console.log('requestOptions');
   console.log(requestOptions);
-  console.log('========================================');
   try {
       // Await the request to get its response.
       let response = await rp(requestOptions);
@@ -368,9 +352,6 @@ app.post('/takeTrip', async (req, res, next) => {
       Authorization : `Basic ${authString}`
     };
   }
-  console.log(`===========TRIP REQUEST OPTIONS==============`);
-  console.log(tripRequestOptions);
-  console.log('========================================');
 
 
   const newCurrentLocation = `${endLat.toFixed(6)},${endLong.toFixed(6)}`;
@@ -404,10 +385,9 @@ app.post('/takeTrip', async (req, res, next) => {
       res.status(500).send(response.info);
       next();
     }
-    console.log(`===========UPDATE LOCATION REQUEST OPTIONS==============`);
+    console.log('updateLocationRequestOptions');
     console.log(updateLocationRequestOptions);
-    console.log('========================================');
-      let response2 = await rp(updateLocationRequestOptions);
+    let response2 = await rp(updateLocationRequestOptions);
     if (response2.returnCode !== 'Success') {
       console.log('THERE WAS A PROBLEM UPDATING CURRENT LOCATION. IT IS OUT OF  SYNC.');
       console.log(response2);
